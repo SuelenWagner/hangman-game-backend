@@ -2,6 +2,7 @@ package com.hangmangame.hangmangame.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Table(name = "categories", uniqueConstraints={@UniqueConstraint(columnNames="name")})
@@ -14,6 +15,9 @@ public class Category {
     @NotEmpty(message = "Nome da categoria não pode estar vazio")
     @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    private List<Word> words;
 
     public Category() {
 

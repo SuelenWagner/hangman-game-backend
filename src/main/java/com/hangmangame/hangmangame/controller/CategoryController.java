@@ -3,6 +3,7 @@ package com.hangmangame.hangmangame.controller;
 import com.hangmangame.hangmangame.model.Category;
 import com.hangmangame.hangmangame.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CategoryController {
             List<Category> categories = new ArrayList<Category>();
 
             if (name == null) {
-                categoryRepository.findAll().forEach(categories::add);
+                categoryRepository.findAll(Sort.by(Sort.Direction.ASC,"name")).forEach(categories::add);
             } else {
                 categoryRepository.findByNameContaining(name).forEach(categories::add);
             }
