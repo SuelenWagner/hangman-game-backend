@@ -108,7 +108,7 @@ public class WordController {
     }
 
     @GetMapping("/words/mode/random")
-    public ResponseEntity<List<Word>> getWordRandom() {
+    public ResponseEntity<List<Word>> getWordRandomly() {
         try {
             wordsMode.clear();
             wordRepository.findAll().forEach(wordsMode::add);
