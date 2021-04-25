@@ -1,15 +1,16 @@
 package com.hangmangame.hangmangame.controller;
 
+import com.hangmangame.hangmangame.model.Category;
 import com.hangmangame.hangmangame.model.Word;
 import com.hangmangame.hangmangame.repository.WordRepository;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -18,6 +19,7 @@ public class WordController {
 
     @Autowired
     WordRepository wordRepository;
+    List<Word> wordsMode = new ArrayList<Word>();
 
 
     @GetMapping("/words")
@@ -85,6 +87,34 @@ public class WordController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/words/mode/{id}")
+    public ResponseEntity<List<Word>> getWordByCategory(@PathVariable("id") int category) {
+        try {
+            wordsMode.clear();
+            List<Word> _words = new ArrayList<Word>(wordRepository.findAll());
+
+            for (Word x : _words) {
+                if (x.getCategory().getId() == category) {
+                    wordsMode.add(x);
+                }
+            }
+            return new ResponseEntity<>(wordsMode, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/words/mode/random")
+    public ResponseEntity<List<Word>> getWordRandom() {
+        try {
+            wordsMode.clear();
+            wordRepository.findAll().forEach(wordsMode::add);
+            return new ResponseEntity<>(wordsMode, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

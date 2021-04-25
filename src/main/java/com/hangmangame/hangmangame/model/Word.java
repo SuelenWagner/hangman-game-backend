@@ -38,9 +38,6 @@ public class Word {
 
     }
 
-//    public Word(String name) {
-//    }
-
     public Integer getId() {
         return id;
     }
