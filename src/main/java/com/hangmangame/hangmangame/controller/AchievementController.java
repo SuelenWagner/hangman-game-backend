@@ -15,7 +15,7 @@ import java.util.Optional;
 //CRUD completo, mas não serão usados todos os métodos, pois o adminstrador não poderá adicionar mais conquistas
 
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class AchievementController {

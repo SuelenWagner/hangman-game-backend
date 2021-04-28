@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class WordController {
@@ -57,6 +57,7 @@ public class WordController {
     @PostMapping("/words")
     public ResponseEntity<Word> createWord(@RequestBody Word word) {
         try {
+            word.setName(word.getName().toUpperCase());
 
             Word _word = wordRepository
                     .save(word);
@@ -72,7 +73,7 @@ public class WordController {
 
         if (wordData.isPresent()) {
             Word _word = wordData.get();
-            _word.setName(word.getName());
+            _word.setName(word.getName().toUpperCase());
             _word.setCategory(word.getCategory());
             return new ResponseEntity<>(wordRepository.save(_word), HttpStatus.OK);
         } else {
