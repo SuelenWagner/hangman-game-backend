@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -17,8 +18,9 @@ public class RankingController {
     @Autowired
     RankingRepository rankingRepository;
 
-    @GetMapping("/ranking-list")
-    public ResponseEntity<List<Ranking>> getAllWords(@RequestParam(required = false) String name) {
+    //O ranking deve listar apenas os 10 primeiros jogadores
+    @GetMapping("/rankings")
+    public ResponseEntity<List<Ranking>> getAllRanking(@RequestParam(required = false) String name) {
         try {
             List<Ranking> rankingList = new ArrayList<Ranking>();
 
@@ -26,7 +28,7 @@ public class RankingController {
             if (name == null) {
                 rankingRepository.findAll().forEach(rankingList::add);
             } else {
-                rankingRepository.findByPlayerNameContaining(name).forEach(rankingList::add);
+                rankingRepository.findByPlayerContaining(name).forEach(rankingList::add);
             }
 
             if (rankingList.isEmpty()) {
@@ -34,24 +36,26 @@ public class RankingController {
             }
 
             Collections.sort(rankingList, (c1, c2) -> {
-                int cmp = Integer.compare(c1.getScore(), c2.getScore());
+                int cmp = Integer.compare(c2.getScore(), c1.getScore());
                 if (cmp == 0) { // se as potuações forem iguais, desempata pela maior quantidade de conquistas
-                    cmp = Double.compare(c1.getAchievements().size(), c2.getAchievements().size());
+                    cmp = Double.compare(c2.getAchievements().size(), c1.getAchievements().size());
                     if (cmp == 0) { // se a quantidade de conquistas forem iguais, desempata pela menor data
-                    //    cmp = c1.getCurrentDate().compareTo(c2.getCurrentDate());
+                        cmp = c2.getCurrentDate().compareTo(c1.getCurrentDate());
                     }
                 }
                 return cmp;
             });
 
-            return new ResponseEntity<>(rankingList, HttpStatus.OK);
+            List<Ranking> rankingList2 = rankingList.stream().limit(10).collect(Collectors.toList());
+
+            return new ResponseEntity<>(rankingList2, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @GetMapping("/ranking/{id}")
-    public ResponseEntity<Ranking> getWordById(@PathVariable("id") Integer id) {
+    @GetMapping("/rankings/{id}")
+    public ResponseEntity<Ranking> getRankingById(@PathVariable("id") Integer id) {
         Optional<Ranking> rankingData = rankingRepository.findById(id);
 
         if (rankingData.isPresent()) {
@@ -61,11 +65,11 @@ public class RankingController {
         }
     }
 
-    @PostMapping("/ranking")
-    public ResponseEntity<Ranking> createWord(@RequestBody Ranking ranking) {
+    @PostMapping("/rankings")
+    public ResponseEntity<Ranking> createRanking(@RequestBody Ranking ranking) {
         try {
-            //Calendar temp = Calendar.getInstance();
-            //ranking.setCurrentDate(temp);
+            Calendar temp = Calendar.getInstance();
+            ranking.setCurrentDate(temp);
 
             Ranking _ranking = rankingRepository
                     .save(ranking);
@@ -77,7 +81,7 @@ public class RankingController {
 
     /*
     @PutMapping("/ranking/{id}")
-    public ResponseEntity<Ranking> updateWord(@PathVariable("id") Integer id, @RequestBody Ranking ranking) {
+    public ResponseEntity<Ranking> updateRanking(@PathVariable("id") Integer id, @RequestBody Ranking ranking) {
         Optional<Ranking> rankingData = rankingRepository.findById(id);
 
         if (rankingData.isPresent()) {
@@ -91,7 +95,7 @@ public class RankingController {
     }
 
     @DeleteMapping("/words/{id}")
-    public ResponseEntity<HttpStatus> deleteWord(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteRanking(@PathVariable("id") Integer id) {
         try {
             wordRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);

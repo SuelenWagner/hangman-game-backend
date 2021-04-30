@@ -3,6 +3,7 @@ package com.hangmangame.hangmangame.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import javax.persistence.ManyToMany;
 
 @Entity
 @Table(name = "achievements", uniqueConstraints={@UniqueConstraint(columnNames="title")})
@@ -19,6 +20,9 @@ public class Achievement {
     @NotEmpty
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(mappedBy = "achievements", cascade = CascadeType.PERSIST)
+    private List<Ranking> ranking;
 
     public Achievement() {
 

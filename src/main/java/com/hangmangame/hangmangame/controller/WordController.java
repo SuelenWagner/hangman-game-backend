@@ -1,9 +1,7 @@
 package com.hangmangame.hangmangame.controller;
 
-import com.hangmangame.hangmangame.model.Category;
 import com.hangmangame.hangmangame.model.Word;
 import com.hangmangame.hangmangame.repository.WordRepository;
-import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
