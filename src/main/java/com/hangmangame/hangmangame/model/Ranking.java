@@ -90,14 +90,29 @@ public class Ranking {
         this.currentDate = currentDate;
     }
 
+    public void newAchievement (List<Achievement> achievementsTemp){
+        for (Achievement x: achievementsTemp) {
+            achievements.add(x);
+        }
+    }
+
+    public String stringAchievement(List<Achievement> achievements){
+        String ac = "\n";
+        for (Achievement x:achievements) {
+            ac += x + "\n";
+        }
+        return ac;
+    }
 
     @Override
     public String toString() {
-        return "Ranking{" +
-                "id=" + id +
-                ", player='" + player + '\'' +
-                ", score=" + score +
-                ", achievements=" + achievements +
-                '}';
+        if(achievements.isEmpty()){
+            return "Player='" + player + '\'' +
+                    ", Score=" + score;
+        }
+        return "Player='" + player + '\'' +
+                ", Score=" + score +
+                ",\nAchievements=" + stringAchievement(achievements);
+
     }
 }
