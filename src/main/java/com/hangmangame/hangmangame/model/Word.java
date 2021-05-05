@@ -22,7 +22,6 @@ public class Word {
     @JoinColumn(name = "fk_category", nullable = false)
     private Category category;
 
-
     public Word(Integer id, String name, Category category) {
         this.id = id;
         this.name = name;
@@ -35,7 +34,6 @@ public class Word {
     }
 
     public Word() {
-
     }
 
     public Integer getId() {

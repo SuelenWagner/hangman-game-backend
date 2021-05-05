@@ -1,6 +1,5 @@
 package com.hangmangame.hangmangame.controller;
 
-import com.hangmangame.hangmangame.model.Achievement;
 import com.hangmangame.hangmangame.model.Ranking;
 import com.hangmangame.hangmangame.repository.RankingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 @CrossOrigin(origins = "*")
 @RestController

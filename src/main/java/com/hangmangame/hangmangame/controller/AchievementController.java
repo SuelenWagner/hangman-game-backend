@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 //CRUD completo, mas não serão usados todos os métodos, pois o adminstrador não poderá adicionar mais conquistas
-
 
 @CrossOrigin(origins = "*")
 @RestController

@@ -20,7 +20,6 @@ public class Category {
     private List<Word> words;
 
     public Category() {
-
     }
 
     public Category(String name) {

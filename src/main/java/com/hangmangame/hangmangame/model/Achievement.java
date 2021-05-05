@@ -25,7 +25,6 @@ public class Achievement {
     private List<Ranking> ranking;
 
     public Achievement() {
-
     }
 
     public Achievement(String title, String description) {
@@ -61,5 +60,4 @@ public class Achievement {
                 ", description='" + description + '\'' +
                 '}';
     }
-
 }
