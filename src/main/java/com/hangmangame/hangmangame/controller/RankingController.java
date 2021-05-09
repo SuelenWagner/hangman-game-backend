@@ -135,11 +135,8 @@ public class RankingController {
             Calendar temp = Calendar.getInstance();
             ranking.setCurrentDate(temp);
 
-            Ranking _ranking = new Ranking();
-            _ranking.setPlayer("No nick");
-            _ranking.setScore(0);
-            _ranking.setAchievements(null);
-            rankingRepository.save(_ranking);
+            Ranking _ranking = rankingRepository
+                    .save(ranking);
             return new ResponseEntity<>(_ranking, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
