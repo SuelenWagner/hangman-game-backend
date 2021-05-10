@@ -34,7 +34,7 @@ public class RankingController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            Collections.sort(rankingList, (c1, c2) -> {
+            rankingList.sort((c1, c2) -> {
                 int cmp = Integer.compare(c2.getScore(), c1.getScore());
                 if (cmp == 0) { // se as potuações forem iguais, desempata pela maior quantidade de conquistas
                     cmp = Double.compare(c2.getAchievements().size(), c1.getAchievements().size());
