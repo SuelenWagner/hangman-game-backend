@@ -45,6 +45,7 @@ public class RankingController {
                 return cmp;
             });
 
+            //List<Ranking> rankingList2 = rankingList.stream().limit(10).collect(Collectors.toList());
             List<Ranking> rankingList2 = rankingList.subList(0,10);
 
             return new ResponseEntity<>(rankingList2, HttpStatus.OK);
