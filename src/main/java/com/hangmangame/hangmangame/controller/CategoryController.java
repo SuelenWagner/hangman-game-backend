@@ -55,7 +55,7 @@ public class CategoryController {
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         try {
             Category _category = categoryRepository
-                    .save(new Category(category.getName()));
+                    .save(new Category(category.getName().toUpperCase()));
             return new ResponseEntity<>(_category, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,7 +68,7 @@ public class CategoryController {
 
         if (categoryData.isPresent()) {
             Category _category = categoryData.get();
-            _category.setName(category.getName());
+            _category.setName(category.getName().toUpperCase());
             return new ResponseEntity<>(categoryRepository.save(_category), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
