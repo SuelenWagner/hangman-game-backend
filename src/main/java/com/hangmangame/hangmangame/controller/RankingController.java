@@ -34,15 +34,18 @@ public class RankingController {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
 
-            rankingList.sort((c1, c2) -> {
-                int cmp = Integer.compare(c2.getScore(), c1.getScore());
-                if (cmp == 0) { // se as potuações forem iguais, desempata pela maior quantidade de conquistas
-                    cmp = Double.compare(c2.getAchievements().size(), c1.getAchievements().size());
-                    if (cmp == 0) { // se a quantidade de conquistas forem iguais, desempata pela menor data
-                        cmp = c2.getCurrentDate().compareTo(c1.getCurrentDate());
+            Collections.sort(rankingList, new Comparator<Ranking>() {
+                @Override
+                public int compare(Ranking c1, Ranking c2) {
+                    int cmp = Double.compare(c2.getScore(), c1.getScore());
+                    if (cmp == 0) { // se as potuações forem iguais, desempata pela maior quantidade de conquistas
+                        cmp = Double.compare(c2.getAchievements().size(), c1.getAchievements().size());
+                        if (cmp == 0) { // se a quantidade de conquistas forem iguais, desempata pela menor data
+                            cmp = c2.getCurrentDate().compareTo(c1.getCurrentDate());
+                        }
                     }
+                    return cmp;
                 }
-                return cmp;
             });
 
             List<Ranking> rankingList2 = rankingList.subList(0,10);
