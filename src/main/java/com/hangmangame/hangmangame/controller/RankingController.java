@@ -178,4 +178,14 @@ public class RankingController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @DeleteMapping("/ranking/{id}")
+    public ResponseEntity<HttpStatus> deleteRanking(@PathVariable("id") Integer id) {
+        try {
+            rankingRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
