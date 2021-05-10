@@ -16,8 +16,6 @@ public class WordController {
 
     @Autowired
     WordRepository wordRepository;
-    List<Word> wordsMode = new ArrayList<Word>();
-
 
     @GetMapping("/words")
     public ResponseEntity<List<Word>> getAllWords(@RequestParam(required = false) String name) {
@@ -91,7 +89,7 @@ public class WordController {
     @GetMapping("/words/mode/{id}")
     public ResponseEntity<List<Word>> getWordByCategory(@PathVariable("id") int category) {
         try {
-            wordsMode.clear();
+            List<Word> wordsMode = new ArrayList<Word>();
             List<Word> _words = new ArrayList<Word>(wordRepository.findAll());
 
             for (Word x : _words) {
@@ -99,6 +97,7 @@ public class WordController {
                     wordsMode.add(x);
                 }
             }
+            Collections.shuffle(wordsMode);
             return new ResponseEntity<>(wordsMode, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -108,8 +107,9 @@ public class WordController {
     @GetMapping("/words/mode/random")
     public ResponseEntity<List<Word>> getWordRandomly() {
         try {
-            wordsMode.clear();
+            List<Word> wordsMode = new ArrayList<Word>();
             wordRepository.findAll().forEach(wordsMode::add);
+            Collections.shuffle(wordsMode);
             return new ResponseEntity<>(wordsMode, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
